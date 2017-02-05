@@ -43,21 +43,20 @@ const store = createStore(
   applyMiddleware(thunk)
 )
 
-window.store = store
-
 const handleGoBack = () => window.history.back()
 const handleGoForward = () => window.history.go(1)
 
 const App = (
   <Provider store={store}>
     <Router>
-      <Layout fixedHeader>
-        <Header style={{position: 'fixed'}} title='Hacker News'>
-          <IconButton style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '5px'}} name='arrow_back' onClick={handleGoBack} />
-          <IconButton style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: '5px'}} name='arrow_forward' onClick={handleGoForward} />
+      <Layout>
+        <Header title='Hacker News'>
+          <IconButton name='arrow_back' onClick={handleGoBack} />
+          <IconButton name='arrow_forward' onClick={handleGoForward} />
         </Header>
         <Content style={{marginLeft: '10px', marginRight: '10px'}}>
-          <Match exactly pattern='/' component={Topics} />
+          <Match exactly pattern='/' component={() => <Topics page='newstories' />} />
+          <Match exactly pattern='/:page' component={Topics} />
           <Match exactly pattern='/post/:postId/comment' component={Comments} />
         </Content>
       </Layout>

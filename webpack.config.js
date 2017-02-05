@@ -19,7 +19,6 @@ module.exports = {
     extensions: ['', '.js', '.json']
   },
   plugins: [
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' })
   ]
 };
