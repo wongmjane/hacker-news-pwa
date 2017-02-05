@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Router from 'react-router/HashRouter'
 import Match from 'react-router/Match'
-import { Layout, Header, Content, IconButton } from 'react-mdl'
-import Topics from './components/topics'
+import Link from 'react-router/Link'
+import { Layout, Header, Content, IconButton, Navigation, Drawer } from 'react-mdl'
+import {NewStories, TopStories, BestStories} from './components/topics'
 import Comments from './components/comment'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
@@ -43,20 +44,33 @@ const store = createStore(
   applyMiddleware(thunk)
 )
 
-const handleGoBack = () => window.history.back()
-const handleGoForward = () => window.history.go(1)
+function closeDrawer () {
+  document.querySelector('.mdl-layout').MaterialLayout.toggleDrawer()
+}
 
 const App = (
   <Provider store={store}>
     <Router>
       <Layout>
         <Header title='Hacker News'>
-          <IconButton name='arrow_back' onClick={handleGoBack} />
-          <IconButton name='arrow_forward' onClick={handleGoForward} />
+          <Navigation>
+            <Link to='/newstories'>New Stories</Link>
+            <Link to='/topstories'>Top Stories</Link>
+            <Link to='/beststories'>Best Stories</Link>
+          </Navigation>
         </Header>
+        <Drawer title="Hacker News">
+          <Navigation>
+            <a href='/#/newstories' onClick={closeDrawer}>New Stories</a>
+            <a href='/#/topstories' onClick={closeDrawer}>Top Stories</a>
+            <a href='/#/beststories' onClick={closeDrawer}>Best Stories</a>
+          </Navigation>
+        </Drawer>
         <Content style={{marginLeft: '10px', marginRight: '10px'}}>
-          <Match exactly pattern='/' component={() => <Topics page='newstories' />} />
-          <Match exactly pattern='/:page' component={Topics} />
+          <Match exactly pattern='/' component={TopStories} />
+          <Match exactly pattern='/newstories' component={NewStories} />
+          <Match exactly pattern='/topstories' component={TopStories} />
+          <Match exactly pattern='/beststories' component={BestStories} />
           <Match exactly pattern='/post/:postId/comment' component={Comments} />
         </Content>
       </Layout>

@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'react-router/Link'
+import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import {fetchPage} from '../actions'
 
@@ -10,9 +10,9 @@ import {fetchPage} from '../actions'
 }), dispatch => ({
   fetchPage: page => dispatch(fetchPage(page))
 }))
-export default class Topics extends React.Component {
+class Topics extends React.Component {
   componentDidMount () {
-    this.props.fetchPage(this.props.params.page)
+    this.props.fetchPage(this.props.page)
   }
 
   render () {
@@ -35,3 +35,7 @@ export default class Topics extends React.Component {
     }</ol>)
   }
 }
+
+export const NewStories = () => <Topics page='newstories' />
+export const TopStories = () => <Topics page='topstories' />
+export const BestStories = () => <Topics page='beststories' />
